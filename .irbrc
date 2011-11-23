@@ -2,8 +2,6 @@
 require 'wirb'
 Wirb.start
 
-require 'ori'
-
 # quick benchmarking
 def quick(repetitions=100, &block)
   require 'benchmark'
@@ -28,4 +26,3 @@ end
 # TIPS
 # * object.method(:method_name) tells you what defines the method
 # * gem install utility_belt
-# * gem install ori --> .irbrc: require 'ori'
