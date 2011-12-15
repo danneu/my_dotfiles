@@ -1,79 +1,124 @@
-"set t_Co=256
-"colorscheme kellys
-" colorscheme night 
-" mustang90 
-" vibrantink 
-" leo76 
-" tote137
-" vibrantink141
-" molokai 84
-" vividchalk 142
-" inkpot 70
+" =KEYBINDINGS
+" ==================================================
+let mapleader = ","
+inoremap jk <Esc>
+inoremap jj <Esc>
+" Plugin: Surround
+let g:surround_37 = "<% \r %>"
+let g:surround_61 = "<%= \r %>"
+" Clean whitespace ,W
+map <leader>W  :%s/\s\+$//<cr>:let @/=''<CR>
+" Change case ,u
+nnoremap <leader>u gUiw
+inoremap <leader>u <esc>gUiwea
+" Substitute
+nnoremap <leader>s :%s//<left>
+" HTML tag closing
+inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<cr>a
+" Align text
+nnoremap <leader>Al :left<cr>
+nnoremap <leader>Ac :center<cr>
+nnoremap <leader>Ar :right<cr>
+vnoremap <leader>Al :left<cr>
+vnoremap <leader>Ac :center<cr>
+vnoremap <leader>Ar :right<cr>
+" Precede next line with the rest of this line
+nnoremap K h/[^ ]<cr>"zd$jyyP^v$h"zpJk:s/\v +$//<cr>:noh<cr>j^
 
-filetype on  " Automatically detect file types.
-set nocompatible  " We don't want vi compatibility.
- 
-" Add recently accessed projects menu (project plugin)
-set viminfo^=!
- 
-" Minibuffer Explorer Settings
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
- 
-" alt+n or alt+p to navigate between entries in QuickFix
-map <silent> <m-p> :cp <cr>
-map <silent> <m-n> :cn <cr>
- 
-" Change which file opens after executing :Rails command
-let g:rails_default_file='config/database.yml'
- 
-syntax enable
+" =VUNDLE
+" ==================================================
+set nocompatible
+filetype off
+filetype plugin indent on
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+Bundle 'gmarik/vundle' " Let Vundle manage Vundle
+" Github repos
+Bundle 'tpop/vim-rails.git'
+" Vim-scripts repos
+Bundle 'FuzzyFinder'
+" Non-Github repos
+Bundle 'git://git.wincent.com/command-t.git'
 
-set cf  " Enable error files & error jumping.
-set clipboard+=unnamed  " Yanks go on clipboard instead.
-set history=256  " Number of things to remember in history.
-set autowrite  " Writes on make/shell commands
-set ruler  " Ruler on
-set nu  " Line numbers on
-set nowrap  " Line wrapping off
-set timeoutlen=400  "250  " Time to wait after ESC (default causes an annoying delay)
-" colorscheme vividchalk  " Uncomment this to set a default theme
- 
-" Formatting (some of these are for coding in C and C++)
-set ts=2  " Tabs are 2 spaces
-set bs=2  " Backspace over everything in insert mode
-set shiftwidth=2  " Tabs under smart indent
-set nocp incsearch
-set cinoptions=:0,p0,t0
-set cinwords=if,else,while,do,for,switch,case
-set formatoptions=tcqr
-set cindent
-set autoindent
-set smarttab
-set expandtab
- 
-" Visual
-set showmatch  " Show matching brackets.
-set mat=5  " Bracket blinking.
-" set list
-" Show $ at end of line and trailing space as ~
-" set lcs=tab:\ \ ,eol:$,trail:~,extends:>,precedes:<
-set novisualbell  " No blinking .
-set noerrorbells  " No noise.
-set laststatus=2  " Always show status line.
- 
-" gvim specific
-set mousehide  " Hide mouse after chars typed
-set mouse=a  " Mouse in all modes
-
+" =BASIC OPTIONS
+" ==================================================
 set nobackup
 set nowritebackup
 set noswapfile
 
-" custom surroundings
-let g:surround_37 = "<% \r %>"
-let g:surround_61 = "<%= \r %>"
+set encoding=utf-8
+set autoindent
+set relativenumber
+set clipboard+=unnamed      " Yanks go on clipboard instead.
+set history=1000            " Number of things to remember in history.
+set noerrorbells            " No noise.
+set autowrite               " Writes on make/shell commands
+set nu                      " Line numbers on
+set timeoutlen=500          " Time to wait after ESC (default=250)
+set ruler
+set laststatus=2            " Always show status line.
+set mouse=a                 " Mouse in all modes
+
+
+" =TABS, SPACES, WRAPPING
+" ==================================================
 set wrap
-imap jj <Esc>
+set ts=2                    " Tabs are 2 spaces
+set bs=2                    " Backspace over everything in insert mode
+set shiftwidth=2
+set softtabstop=2
+set textwidth=80
+set autoindent
+set smarttab
+set expandtab
+
+" =COLOR SCHEME
+" ==================================================
+syntax on
+set background=dark
+colorscheme molokai
+
+" =SEARCHING, MOVEMENT
+" ==================================================
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+set gdefault
+" Keep search matches in the middle of the window and pulse the line when moving
+" to them
+nnoremap n nzzzv:call PulseCursorLine()<cr>
+nnoremap N Nzzzv:call PulseCursorLine()<cr>
+" Don't move on *
+nnoremap * *<c-o>
+
+" =DIRECTIONAL KEYS
+" ==================================================
+" Easy buffer navigation
+noremap <C-h>  <C-w>h
+noremap <C-j>  <C-w>j
+noremap <C-k>  <C-w>k
+noremap <C-l>  <C-w>l
+noremap <leader>v <C-w>v
+
+" =DIRECTIONAL KEYS
+" ==================================================
+" Space to toggle folds
+nnoremap <Space> za
+vnoremap <Space> za
+" Make z0 recursively open whatever top level fold we're in no matter where the
+" cursor happens to be
+nnoremap z0 zCz0
+" Use ,z to focus the current fold
+nnoremap <leader>z zMzvzz
+
+" =QUICK EDITING
+" ==================================================
+nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<cr>
+
+
+" Better completion
+set completeopt=longest,menuone,preview
+
+
